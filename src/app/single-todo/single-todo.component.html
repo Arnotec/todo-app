@@ -1,0 +1,12 @@
+<a button type="button" class="btn btn-success mr-1"
+      routerLink="/todos">Retour
+</a>
+
+<p *ngIf="!todo">{{ error }}</p>
+
+<div *ngIf="todo" class="card" style="width: 18rem;">
+  <img [src]="todo.image" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{ todo.name }}</h5>
+  </div>
+</div>

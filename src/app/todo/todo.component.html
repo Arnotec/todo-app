@@ -1,5 +1,5 @@
 <h1>Liste des taches a realiser </h1>
-
+{{ today | date | uppercase }}
 <ul class="list-group">
 
   <li class="list-group-item" *ngFor="let todo of todos, let i = index">
@@ -11,24 +11,28 @@
       </a>
       {{ todo.name }}
 
-      <button class="btn btn-primary" [disabled]="todo.status"
+      <button type="button" class="btn btn-primary mr-1" [disabled]="todo.status"
       (click)="onChangeStatus(i)"
       >En cours</button>
-      <button class="btn btn-success" [disabled]="!todo.status"
+      <button type="button" class="btn btn-success mr-1" [disabled]="!todo.status"
       (click)="onChangeStatus(i)"
       >Terminee</button>
 
-      <button class="btn btn-danger"
+      <button type="button" class="btn btn-danger mr-1"
       (click)="onChangeModif(i)" *ngIf="!todo.toModif"
       >Modifier</button>
-      <button class="btn btn-success"
+      <button type="button" class="btn btn-success mr-1"
       (click)="onChangeModif(i)" *ngIf="todo.toModif"
       >Modification terminee</button>
+
+      <button type="button" class="btn btn-success mr-1"
+      (click)="onView(i)"
+      >En savoir plus</button>
 
       <input class="form-control" *ngIf="todo.toModif" [(ngModel)]="todo.name"/>
 
     </div>
-  </li>
+   </li>
 </ul>
 
 

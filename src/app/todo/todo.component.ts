@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TodoService } from '../services/todo.service';
 
 @Component({
   selector: 'my-todo',
@@ -6,53 +7,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./todo.component.css']
 })
 
-export class TodoComponent{
-  toDoOne: string = "Projet 1";
-  toDoTwo: string = "Projet 2";
-  toDoThree: string = "Projet 3";
-  toDoFour: string = "Projet 4";
+export class TodoComponent implements OnInit {
 
-  todos = [
-    {
-      name: "Projet 1",
-      status: true,
-      image: "http://placehold.it/100",
-      toModif: false
-    },
-    {
-      name: "Projet 2",
-      status: false,
-      image: "http://placehold.it/100",
-      toModif: false
-    },
-    {
-      name: "Projet 3",
-      status: true,
-      image: "http://placehold.it/100",
-      toModif: false
-    },
-    {
-      name: "Projet 4",
-      status: true,
-      image: "http://placehold.it/100",
-      toModif: false
-    },
-    {
-      name: "Projet 5",
-      status: false,
-      image: "http://placehold.it/100",
-      toModif: false
-    },
+  today: Date = new Date();
+  todos: { name: string; status: boolean; image: string; toModif: boolean; }[] | undefined;
 
-  ]
+  constructor(private todoService: TodoService) {
+
+  }
+  ngOnInit(): void {
+    this.today = this.todoService.today;
+    this.todos = this.todoService.todos;
+  }
 
   onChangeStatus(i: number){
-    this.todos[i].status = !this.todos[i].status;
+    this.todoService.onChangeStatus(i);
   }
 
   onChangeModif(i: number){
-    this.todos[i].toModif = !this.todos[i].toModif;
+   this.todoService.onChangeModif(i);
   }
 
+  onView(id: number){
+    this.todoService.onView(id);
+  }
 }
 
