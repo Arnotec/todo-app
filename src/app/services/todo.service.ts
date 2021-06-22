@@ -8,42 +8,89 @@ export class TodoService{
   toDoThree: string = "Projet 3";
   toDoFour: string = "Projet 4";
   today: Date = new Date();
+  todos: any;
 
-  todos = [
-    {
-      name: "Projet 1",
-      status: true,
-      image: "http://placehold.it/150",
-      toModif: false
-    },
-    {
-      name: "Projet 2",
-      status: false,
-      image: "http://placehold.it/150",
-      toModif: false
-    },
-    {
-      name: "Projet 3",
-      status: true,
-      image: "http://placehold.it/150",
-      toModif: false
-    },
-    {
-      name: "Projet 4",
-      status: true,
-      image: "http://placehold.it/150",
-      toModif: false
-    },
-    {
-      name: "Projet 5",
-      status: false,
-      image: "http://placehold.it/150",
-      toModif: false
-    },
+  constructor(private router: Router) {
 
-  ]
+    this.todos = new Promise((resolve, reject) => {
+      const data = [
+        {
+          name: "Projet 1",
+          status: true,
+          image: "http://placehold.it/150",
+          toModif: false
+        },
+        {
+          name: "Projet 2",
+          status: false,
+          image: "http://placehold.it/150",
+          toModif: false
+        },
+        {
+          name: "Projet 3",
+          status: true,
+          image: "http://placehold.it/150",
+          toModif: false
+        },
+        {
+          name: "Projet 4",
+          status: true,
+          image: "http://placehold.it/150",
+          toModif: false
+        },
+        {
+          name: "Projet 5",
+          status: false,
+          image: "http://placehold.it/150",
+          toModif: false
+        },
 
-  constructor(private router: Router){}
+      ];
+      if (data.length) {
+        setTimeout(() => {
+          resolve(data);
+        }, 2000);
+      } else {
+        reject("Pas de donnees disponibles sur le serveur");
+      }
+    });
+    // setTimeout(() => {
+    //   this.todos = [
+    //         {
+    //           name: "Projet 1",
+    //           status: true,
+    //           image: "http://placehold.it/150",
+    //           toModif: false
+    //         },
+    //         {
+    //           name: "Projet 2",
+    //           status: false,
+    //           image: "http://placehold.it/150",
+    //           toModif: false
+    //         },
+    //         {
+    //           name: "Projet 3",
+    //           status: true,
+    //           image: "http://placehold.it/150",
+    //           toModif: false
+    //         },
+    //         {
+    //           name: "Projet 4",
+    //           status: true,
+    //           image: "http://placehold.it/150",
+    //           toModif: false
+    //         },
+    //         {
+    //           name: "Projet 5",
+    //           status: false,
+    //           image: "http://placehold.it/150",
+    //           toModif: false
+    //         },
+
+    //   ];
+    //   console.log("Dans timeout", this.todos);
+    // }, 1000);
+  }
 
   onChangeStatus(i: number){
     this.todos[i].status = !this.todos[i].status;

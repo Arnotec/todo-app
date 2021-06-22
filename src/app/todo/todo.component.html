@@ -2,7 +2,7 @@
 {{ today | date | uppercase }}
 <ul class="list-group">
 
-  <li class="list-group-item" *ngFor="let todo of todos, let i = index">
+  <li class="list-group-item" *ngFor="let todo of todos | async, let i = index">
 
     <div [ngClass]="{encours:todo.status,terminee:!todo.status}">
 

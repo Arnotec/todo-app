@@ -10,7 +10,7 @@ import { TodoService } from '../services/todo.service';
 export class TodoComponent implements OnInit {
 
   today: Date = new Date();
-  todos: { name: string; status: boolean; image: string; toModif: boolean; }[] | undefined;
+  todos: any;
 
   constructor(private todoService: TodoService) {
 
