@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { TodoService } from '../services/todo.service';
 
 @Component({
@@ -7,23 +8,30 @@ import { TodoService } from '../services/todo.service';
   styleUrls: ['./todo.component.css']
 })
 
-export class TodoComponent implements OnInit {
+export class TodoComponent implements OnInit, OnDestroy {
 
   today: Date = new Date();
   todos: any;
+  todoSub: Subscription = new Subscription();
 
   constructor(private todoService: TodoService) {
 
   }
   ngOnInit(): void {
     this.today = this.todoService.today;
-    this.todoService.todos
-      .then((todoRecup: any) => {
-        this.todos = todoRecup;
-      })
-      .catch((error: string) => {
-        console.log("Erreur : "+ error);
-      });
+    this.todoService.todoSubject.subscribe(
+      (value: any[]) => {
+        this.todos = value;
+      },
+      (error) => {
+        console.log("Erreur : "+error);
+      },
+      () => {
+        console.log("Observable complete");
+      }
+    );
+    this.todoService.emitTodos();
+
   }
 
   onChangeStatus(i: number){
@@ -36,6 +44,9 @@ export class TodoComponent implements OnInit {
 
   onView(id: number){
     this.todoService.onView(id);
+  }
+  ngOnDestroy(){
+    this.todoSub.unsubscribe();
   }
 }
 
