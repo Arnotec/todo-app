@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
+import { Todo } from "../models/todo.model";
 
 @Injectable()
 export class TodoService{
@@ -9,7 +10,7 @@ export class TodoService{
   toDoThree: string = "Projet 3";
   toDoFour: string = "Projet 4";
   today: Date = new Date();
-  todos: any;
+  todos: Todo[] = [];
   todoSubject = new Subject<any[]>();
 
   constructor(private router: Router) {
