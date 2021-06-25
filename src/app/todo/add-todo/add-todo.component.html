@@ -39,7 +39,7 @@
         </select>
       </div>
 
-      <button [disabled]="!AddTodoForm.valid" type="button" class="btn btn-success btn-lg">Ajouter</button>
+      <button [disabled]="!AddTodoForm.valid" (click) = "onSubmit()" type="button" class="btn btn-success btn-lg">Ajouter</button>
 
     </form>
   </div>

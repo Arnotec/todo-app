@@ -73,14 +73,19 @@ export class TodoService{
     this.emitTodos();
   }
 
-  getTodo(index: number){
-    if(this.todos[index]){
+  getTodo(index: number) {
+    if(this.todos[index]) {
       return this.todos[index];
     }
     return false;
   }
 
-  onView(id: number){
+  onView(id: number) {
     this.router.navigate(['single-todo',id]);
+  }
+
+  addTodo(todo: Todo): void {
+    this.todos.unshift(todo);
+    this.emitTodos();
   }
 }
