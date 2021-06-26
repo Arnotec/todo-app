@@ -2,56 +2,56 @@
   <div class="col-6">
     <h1 class="display-4 text-center mb-2">Ajouter un Utilisateur</h1>
 
-    <form>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
 
       <div class="form-group">
         <label for="firstName">Prenom :</label>
-        <input class="form-control m-1" type="text" />
+        <input class="form-control m-1" type="text" formControlName="firstName" />
       </div>
 
       <div class="form-group">
         <label for="lastName">Nom :</label>
-        <input class="form-control m-1" type="text" />
+        <input class="form-control m-1" type="text" formControlName="lastName" />
       </div>
 
       <div class="form-group">
         <label for="email">Email :</label>
-        <input class="form-control m-1" type="email" />
+        <input class="form-control m-1" type="email" formControlName="email" />
       </div>
 
-      <div class="form-group">
+      <div class="form-group" formGroupName="address">
         <h3>Adresse</h3>
         <div class="row">
           <div class="col-6">
             <label for="street">Rue :</label>
-            <input class="form-control m-1" type="text" />
+            <input class="form-control m-1" type="text" formControlName="street" />
           </div>
 
           <div class="col-6">
             <label for="city">Ville :</label>
-            <input class="form-control m-1" type="text" />
+            <input class="form-control m-1" type="text" formControlName="city" />
           </div>
 
           <div class="col-6">
             <label for="state">Etat :</label>
-            <input class="form-control m-1" type="text" />
+            <input class="form-control m-1" type="text" formControlName="state" />
           </div>
 
           <div class="col-6">
             <label for="codezip">Code Postal :</label>
-            <input class="form-control m-1" type="text" />
+            <input class="form-control m-1" type="text" formControlName="zip" />
           </div>
         </div>
       </div>
 
       <div class="form-group">
         <label for="description">Description :</label>
-        <textarea class="form-control m-1" type="text" ></textarea>
+        <textarea class="form-control m-1" type="text" formControlName="description"></textarea>
       </div>
 
       <div class="form-group">
         <label for="dateBirth">Date de naissance :</label>
-        <input class="form-control m-1" type="date" />
+        <input class="form-control m-1" type="date" formControlName="dateBirth"/>
       </div>
 
       <button type="submit" class="btn btn-success btn-lg">Ajouter Utilisateur</button>
