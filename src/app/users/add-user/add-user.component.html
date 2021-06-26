@@ -54,7 +54,7 @@
         <input class="form-control m-1" type="date" formControlName="dateBirth"/>
       </div>
 
-      <button type="submit" class="btn btn-success btn-lg">Ajouter Utilisateur</button>
+      <button type="submit" [disabled]="userForm.invalid" class="btn btn-success btn-lg">Ajouter Utilisateur</button>
 
     </form>
   </div>

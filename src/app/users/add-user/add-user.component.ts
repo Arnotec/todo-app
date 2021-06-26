@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Address } from 'src/app/models/address.model';
+import { User } from 'src/app/models/user.model';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-add-user',
@@ -10,7 +14,7 @@ export class AddUserComponent implements OnInit {
 
   userForm: FormGroup | any;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private userService: UsersService, private router: Router) { }
 
   ngOnInit(): void {
     this.initUserForm();
@@ -18,23 +22,34 @@ export class AddUserComponent implements OnInit {
 
   initUserForm(){
     this.userForm = this.formBuilder.group({
-      firstName: this.formBuilder.control(""),
-      lastName: this.formBuilder.control(""),
-      email: this.formBuilder.control(""),
-      description: this.formBuilder.control(""),
-      dateBirth: this.formBuilder.control(""),
+      firstName: this.formBuilder.control("", [Validators.required, Validators.minLength(5)]),
+      lastName: this.formBuilder.control("", [Validators.required, Validators.minLength(5)]),
+      email: this.formBuilder.control("", [Validators.required, Validators.email, Validators.minLength(5)]),
+      description: this.formBuilder.control("", [Validators.required, Validators.minLength(15)]),
+      dateBirth: this.formBuilder.control("", Validators.required),
       address: this.formBuilder.group({
-        street: this.formBuilder.control(""),
-        state: this.formBuilder.control(""),
-        zip: this.formBuilder.control(""),
-        city: this.formBuilder.control("")
+        street: this.formBuilder.control("", Validators.required),
+        state: this.formBuilder.control("", Validators.required),
+        zip: this.formBuilder.control("", Validators.required),
+        city: this.formBuilder.control("", Validators.required)
       })
     });
   }
 
   onSubmit(): void {
-    console.log(this.userForm.value);
+    const dataUser = this.userForm.value;
+    const address = new Address(dataUser.street, dataUser.city, dataUser.state, dataUser.zip);
+    const newUser = new User(dataUser.firstName,
+                          dataUser.lastName,
+                          dataUser.email,
+                          address,
+                          dataUser.description,
+                          dataUser.dateBirth);
 
+    this.userService.addUser(newUser);
+    this.router.navigate(["users"]);
+
+    //console.log(this.userForm.value);
   }
 
 }

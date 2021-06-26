@@ -7,7 +7,7 @@ export class User {
               public email: string,
               public address: Address,
               public description: string,
-              public dateBirth: Date,
+              public dateBirth: string,
               public aliases?: string[]
               ){}
 
