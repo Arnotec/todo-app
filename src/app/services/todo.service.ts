@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
@@ -13,64 +14,24 @@ export class TodoService{
   todos: Todo[] = [];
   todoSubject = new Subject<any[]>();
 
-  constructor(private router: Router) {
-
-    setTimeout(() => {
-      this.todos = [
-            {
-              name: "Projet 1",
-              status: true,
-              image: "https://picsum.photos/150",
-              toModif: false,
-              description: "Film de science fiction mettant en scène des alienes venues d'autres planetes"
-            },
-            {
-              name: "Projet 2",
-              status: false,
-              image: "https://picsum.photos/150",
-              toModif: false,
-              description: "Film de science fiction mettant en scène des alienes venues d'autres planetes"
-            },
-            {
-              name: "Projet 3",
-              status: true,
-              image: "https://picsum.photos/150",
-              toModif: false,
-              description: "Film de science fiction mettant en scène des alienes venues d'autres planetes"
-            },
-            {
-              name: "Projet 4",
-              status: true,
-              image: "https://picsum.photos/150",
-              toModif: false,
-              description: "Film de science fiction mettant en scène des alienes venues d'autres planetes"
-            },
-            {
-              name: "Projet 5",
-              status: false,
-              image: "https://picsum.photos/150",
-              toModif: false,
-              description: "Film de science fiction mettant en scène des alienes venues d'autres planetes"
-            },
-
-      ];
-      this.emitTodos();
-      console.log("Dans timeout", this.todos);
-    }, 1000);
+  constructor(private router: Router, private httpClient: HttpClient) {
+    this.getTodoFromServer();
   }
 
-  emitTodos(){
+  emitTodos() {
     this.todoSubject.next(this.todos);
   }
 
   onChangeStatus(i: number){
     this.todos[i].status = !this.todos[i].status;
     this.emitTodos();
+    this.saveTodoFromServer();
   }
 
   onChangeModif(i: number){
     this.todos[i].toModif = !this.todos[i].toModif;
     this.emitTodos();
+    this.saveTodoFromServer();
   }
 
   getTodo(index: number) {
@@ -87,5 +48,35 @@ export class TodoService{
   addTodo(todo: Todo): void {
     this.todos.unshift(todo);
     this.emitTodos();
+    this.saveTodoFromServer();
+  }
+
+  saveTodoFromServer(): void {
+    this.httpClient.put("https://todo-list-app-8030c-default-rtdb.firebaseio.com/todos.json", this.todos)
+    .subscribe(
+      () => {
+        console.log("Donnees enregistrees avec succes !");
+      },
+      (error) => {
+        console.log("Erreur de sauvegarde : "+error);
+
+      }
+    );
+  }
+
+  getTodoFromServer(): void {
+    this.httpClient.get<Todo[]>("https://todo-list-app-8030c-default-rtdb.firebaseio.com/todos.json")
+    .subscribe(
+      (todosRecup: Todo[]) => {
+        this.todos = todosRecup;
+        this.emitTodos();
+      },
+      (error) => {
+        console.log("Erreur de recuperation des donnees : "+error);
+      },
+      () => {
+        console.log("Recuperation des donnees terminees");
+      }
+    );
   }
 }
